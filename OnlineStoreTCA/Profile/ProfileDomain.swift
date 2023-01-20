@@ -29,7 +29,7 @@ struct ProfileDomain {
     }
     
     struct Environment {
-        var fetchUserProfile: () async throws -> UserProfile
+        var fetchUserProfile: (() async throws -> UserProfile)?
     }
     
     static let reducer = Reducer <
@@ -44,7 +44,7 @@ struct ProfileDomain {
             state.dataState = .loading
             return .task {
                 await .fetchUserProfileResponse(
-                    TaskResult { try await environment.fetchUserProfile() }
+                    TaskResult { try await environment.fetchUserProfile!() }
                 )
             }
         case .fetchUserProfileResponse(.success(let profile)):

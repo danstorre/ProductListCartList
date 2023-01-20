@@ -35,9 +35,9 @@ struct ProductListDomain {
     }
     
     struct Environment {
-        var fetchProducts:  @Sendable () async throws -> [Product]
-        var sendOrder:  @Sendable ([CartItem]) async throws -> String
-        var uuid: @Sendable () -> UUID
+        var fetchProducts:  (@Sendable () async throws -> [Product])?
+        var sendOrder:  (@Sendable ([CartItem]) async throws -> String)?
+        var uuid: (@Sendable () -> UUID)?
     }
     
     static let reducer = Reducer<
@@ -55,7 +55,7 @@ struct ProductListDomain {
                 action: /ProductListDomain.Action.cart,
                 environment: {
                     CartListDomain.Environment(
-                        sendOrder: $0.sendOrder
+                        sendOrder: $0.sendOrder!
                     )
                 }
             ),
@@ -69,7 +69,7 @@ struct ProductListDomain {
                 state.dataLoadingStatus = .loading
                 return .task {
                     await .fetchProductsResponse(
-                        TaskResult { try await environment.fetchProducts() }
+                        TaskResult { try await environment.fetchProducts!() }
                     )
                 }
             case .fetchProductsResponse(.success(let products)):
@@ -77,7 +77,7 @@ struct ProductListDomain {
                 state.productListState = IdentifiedArrayOf(
                     uniqueElements: products.map {
                         ProductDomain.State(
-                            id: environment.uuid(),
+                            id: environment.uuid!(),
                             product: $0
                         )
                     }
@@ -130,7 +130,7 @@ struct ProductListDomain {
                             .compactMap { state in
                                 state.count > 0
                                 ? CartItemDomain.State(
-                                    id: environment.uuid(),
+                                    id: environment.uuid!(),
                                     cartItem: CartItem(
                                         product: state.product,
                                         quantity: state.count
