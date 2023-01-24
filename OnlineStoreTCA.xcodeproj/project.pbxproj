@@ -41,6 +41,7 @@
 		FBED37D9298005E000D67956 /* ProductListContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBED37D8298005E000D67956 /* ProductListContainerView.swift */; };
 		FBED37DB298008B400D67956 /* ProductListContainerDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBED37DA298008B400D67956 /* ProductListContainerDomain.swift */; };
 		FBED37DD29801DF500D67956 /* ProductListViewDuplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBED37DC29801DF500D67956 /* ProductListViewDuplication.swift */; };
+		FBED37DF29801E8500D67956 /* ProductListDomainDuplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBED37DE29801E8500D67956 /* ProductListDomainDuplication.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		FBED37D8298005E000D67956 /* ProductListContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListContainerView.swift; sourceTree = "<group>"; };
 		FBED37DA298008B400D67956 /* ProductListContainerDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListContainerDomain.swift; sourceTree = "<group>"; };
 		FBED37DC29801DF500D67956 /* ProductListViewDuplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewDuplication.swift; sourceTree = "<group>"; };
+		FBED37DE29801E8500D67956 /* ProductListDomainDuplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListDomainDuplication.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				B525334628AD3F6000B29A17 /* ProductListDomain.swift */,
 				B525334D28ADD6DE00B29A17 /* ProductListView.swift */,
 				B556E18228B84F1500CB51F4 /* ErrorView.swift */,
+				FBED37DE29801E8500D67956 /* ProductListDomainDuplication.swift */,
 				FBED37DC29801DF500D67956 /* ProductListViewDuplication.swift */,
 			);
 			path = ProductList;
@@ -429,6 +432,7 @@
 				B50F8F1028B3D7FB0034B039 /* CartCell.swift in Sources */,
 				B556E17F28B7BE2D00CB51F4 /* ProfileDomain.swift in Sources */,
 				B556E17D28B7BE1600CB51F4 /* ProfileView.swift in Sources */,
+				FBED37DF29801E8500D67956 /* ProductListDomainDuplication.swift in Sources */,
 				B556E18128B7BEC200CB51F4 /* UserProfile.swift in Sources */,
 				B556E16428B5C44000CB51F4 /* APIClient.swift in Sources */,
 				B525334728AD3F6000B29A17 /* ProductListDomain.swift in Sources */,

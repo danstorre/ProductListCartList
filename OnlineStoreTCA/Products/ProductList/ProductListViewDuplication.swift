@@ -9,7 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct ProductListViewDuplication: View {
-    let store: Store<ProductListDomain.State,ProductListDomain.Action>
+    let store: Store<ProductListDomainDuplication.State,ProductListDomainDuplication.Action>
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
@@ -28,7 +28,7 @@ struct ProductListViewDuplication: View {
                         ForEachStore(
                             self.store.scope(
                                 state: \.productListState,
-                                action: ProductListDomain.Action
+                                action: ProductListDomainDuplication.Action
                                     .product(id: action:)
                             )
                         ) {
@@ -45,11 +45,10 @@ struct ProductListViewDuplication_Previews: PreviewProvider {
     static var previews: some View {
         ProductListViewDuplication(
             store: Store(
-                initialState: ProductListDomain.State(),
-                reducer: ProductListDomain.reducer,
-                environment: ProductListDomain.Environment(
+                initialState: ProductListDomainDuplication.State(),
+                reducer: ProductListDomainDuplication.reducer,
+                environment: ProductListDomainDuplication.Environment(
                     fetchProducts: { Product.sample },
-                    sendOrder: { _ in "OK" },
                     uuid: { UUID() }
                 )
             )
