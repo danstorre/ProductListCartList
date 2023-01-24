@@ -40,6 +40,7 @@
 		FB71FCA8297AE58500DDE6F9 /* TabViewDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB71FCA7297AE58500DDE6F9 /* TabViewDomain.swift */; };
 		FBED37D9298005E000D67956 /* ProductListContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBED37D8298005E000D67956 /* ProductListContainerView.swift */; };
 		FBED37DB298008B400D67956 /* ProductListContainerDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBED37DA298008B400D67956 /* ProductListContainerDomain.swift */; };
+		FBED37DD29801DF500D67956 /* ProductListViewDuplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBED37DC29801DF500D67956 /* ProductListViewDuplication.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		FB71FCA7297AE58500DDE6F9 /* TabViewDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewDomain.swift; sourceTree = "<group>"; };
 		FBED37D8298005E000D67956 /* ProductListContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListContainerView.swift; sourceTree = "<group>"; };
 		FBED37DA298008B400D67956 /* ProductListContainerDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListContainerDomain.swift; sourceTree = "<group>"; };
+		FBED37DC29801DF500D67956 /* ProductListViewDuplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewDuplication.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 				B525334628AD3F6000B29A17 /* ProductListDomain.swift */,
 				B525334D28ADD6DE00B29A17 /* ProductListView.swift */,
 				B556E18228B84F1500CB51F4 /* ErrorView.swift */,
+				FBED37DC29801DF500D67956 /* ProductListViewDuplication.swift */,
 			);
 			path = ProductList;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				B525335128AE87C700B29A17 /* CartListDomain.swift in Sources */,
 				B50F8F0128B19B880034B039 /* AddToCartButton.swift in Sources */,
 				FB71FCA6297AE57A00DDE6F9 /* TabViewContainer.swift in Sources */,
+				FBED37DD29801DF500D67956 /* ProductListViewDuplication.swift in Sources */,
 				B50F8F1328B482E80034B039 /* CartItemDomain.swift in Sources */,
 				B525335528AE8C5600B29A17 /* CartListView.swift in Sources */,
 				B556E18328B84F1500CB51F4 /* ErrorView.swift in Sources */,
