@@ -37,6 +37,9 @@ struct ProductListViewDuplication: View {
                     }
                 }
             }
+            .task {
+                viewStore.send(.fetchProducts)
+            }
         }
     }
 }
