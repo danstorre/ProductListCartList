@@ -4,9 +4,10 @@ import ComposableArchitecture
 
 struct ProductListContainerView: View {
     let store: Store<ProductListContainerDomain.State,ProductListContainerDomain.Action>
-    private let productListView: ProductListView
+    private let productListView: () -> ProductListViewDuplication
     
-    init(productListView: ProductListView, store: Store<ProductListContainerDomain.State,ProductListContainerDomain.Action>) {
+    init(productListView: @escaping () -> ProductListViewDuplication,
+         store: Store<ProductListContainerDomain.State,ProductListContainerDomain.Action>) {
         self.productListView = productListView
         self.store = store
     }
@@ -14,7 +15,7 @@ struct ProductListContainerView: View {
     var body: some View {
         WithViewStore(self.store) { viewStore in
             NavigationView {
-                productListView
+                productListView()
                 .navigationTitle("Products")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {

@@ -42,6 +42,7 @@
 		FBED37DB298008B400D67956 /* ProductListContainerDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBED37DA298008B400D67956 /* ProductListContainerDomain.swift */; };
 		FBED37DD29801DF500D67956 /* ProductListViewDuplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBED37DC29801DF500D67956 /* ProductListViewDuplication.swift */; };
 		FBED37DF29801E8500D67956 /* ProductListDomainDuplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBED37DE29801E8500D67956 /* ProductListDomainDuplication.swift */; };
+		FBED37E12980526300D67956 /* NewTabViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBED37E02980526300D67956 /* NewTabViewContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		FBED37DA298008B400D67956 /* ProductListContainerDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListContainerDomain.swift; sourceTree = "<group>"; };
 		FBED37DC29801DF500D67956 /* ProductListViewDuplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewDuplication.swift; sourceTree = "<group>"; };
 		FBED37DE29801E8500D67956 /* ProductListDomainDuplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListDomainDuplication.swift; sourceTree = "<group>"; };
+		FBED37E02980526300D67956 /* NewTabViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTabViewContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,9 +131,9 @@
 				B5BE68DC28BB2399008FC353 /* Test */,
 				B525334628AD3F6000B29A17 /* ProductListDomain.swift */,
 				B525334D28ADD6DE00B29A17 /* ProductListView.swift */,
-				B556E18228B84F1500CB51F4 /* ErrorView.swift */,
 				FBED37DE29801E8500D67956 /* ProductListDomainDuplication.swift */,
 				FBED37DC29801DF500D67956 /* ProductListViewDuplication.swift */,
+				B556E18228B84F1500CB51F4 /* ErrorView.swift */,
 			);
 			path = ProductList;
 			sourceTree = "<group>";
@@ -294,6 +296,7 @@
 			children = (
 				FB71FCA7297AE58500DDE6F9 /* TabViewDomain.swift */,
 				FB71FCA5297AE57A00DDE6F9 /* TabViewContainer.swift */,
+				FBED37E02980526300D67956 /* NewTabViewContainer.swift */,
 			);
 			path = MainTabView;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 				FBED37DF29801E8500D67956 /* ProductListDomainDuplication.swift in Sources */,
 				B556E18128B7BEC200CB51F4 /* UserProfile.swift in Sources */,
 				B556E16428B5C44000CB51F4 /* APIClient.swift in Sources */,
+				FBED37E12980526300D67956 /* NewTabViewContainer.swift in Sources */,
 				B525334728AD3F6000B29A17 /* ProductListDomain.swift in Sources */,
 				B50F8F0C28B2C1A70034B039 /* ProductDomain.swift in Sources */,
 				FB19FF6A297AF310001A2364 /* Root.swift in Sources */,
