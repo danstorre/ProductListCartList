@@ -4,12 +4,9 @@ import ComposableArchitecture
 
 struct NewTabViewContainer: View {
     let store: Store<TabViewDomain.State, TabViewDomain.Action>
-    @State var productListStore: Store<ProductListContainerDomain.State, ProductListContainerDomain.Action>
     @State var profileStore: Store<ProfileDomain.State, ProfileDomain.Action>
-    
-    var fetchProducts:  (@Sendable () async throws -> [Product])?
-    var uuid: (@Sendable () -> UUID)?
-    
+
+    let productListContainerView: () -> ProductListContainerView
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
@@ -19,19 +16,7 @@ struct NewTabViewContainer: View {
                     send: TabViewDomain.Action.tabSelected
                 )
             ) {
-                ProductListContainerView(
-                    productListView: {
-                        ProductListViewDuplication(store: Store(
-                            initialState: ProductListDomainDuplication.State(),
-                            reducer: ProductListDomainDuplication.reducer,
-                            environment: ProductListDomainDuplication.Environment(
-                                fetchProducts: fetchProducts,
-                                uuid: uuid
-                            )
-                        ))
-                    }, 
-                    store: productListStore
-                )
+                productListContainerView()
                 .tabItem {
                     Image(systemName: "list.bullet")
                     Text("Products")
