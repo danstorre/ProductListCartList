@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct ProductListContainerDomain {
+struct ProductsContainerDomain {
     struct State: Equatable {
         var dataLoadingStatus = DataLoadingStatus.notStarted
         var shouldOpenCart = false
@@ -43,7 +43,7 @@ struct ProductListContainerDomain {
             .optional()
             .pullback(
                 state: \.cartState,
-                action: /ProductListContainerDomain.Action.cart,
+                action: /ProductsContainerDomain.Action.cart,
                 environment: {
                     CartListDomain.Environment(
                         sendOrder: $0.sendOrder!

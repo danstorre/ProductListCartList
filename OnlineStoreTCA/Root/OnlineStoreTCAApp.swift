@@ -9,11 +9,11 @@ import SwiftUI
 
 @main
 struct OnlineStoreTCAApp: App {
-    var mainView: NewTabViewContainer
+    var mainView: TabViewContainer
     private let root = Root()
     
     init() {
-        mainView = root.createNewView()
+        mainView = root.createMainView()
     }
     
     var body: some Scene {

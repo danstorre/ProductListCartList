@@ -2,12 +2,12 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct ProductListContainerView: View {
-    let store: Store<ProductListContainerDomain.State,ProductListContainerDomain.Action>
-    private let productListView: () -> ProductListViewDuplication
+struct ProductsContainerView: View {
+    let store: Store<ProductsContainerDomain.State,ProductsContainerDomain.Action>
+    private let productListView: () -> ProductListView
     
-    init(productListView: @escaping () -> ProductListViewDuplication,
-         store: Store<ProductListContainerDomain.State,ProductListContainerDomain.Action>) {
+    init(productListView: @escaping () -> ProductListView,
+         store: Store<ProductsContainerDomain.State,ProductsContainerDomain.Action>) {
         self.productListView = productListView
         self.store = store
     }
@@ -29,13 +29,13 @@ struct ProductListContainerView: View {
                 .sheet(
                     isPresented: viewStore.binding(
                         get: \.shouldOpenCart,
-                        send: ProductListContainerDomain.Action.setCartView(isPresented:)
+                        send: ProductsContainerDomain.Action.setCartView(isPresented:)
                     )
                 ) {
                     IfLetStore(
                         self.store.scope(
                             state: \.cartState,
-                            action: ProductListContainerDomain.Action.cart
+                            action: ProductsContainerDomain.Action.cart
                         )
                     ) {
                         CartListView(store: $0)

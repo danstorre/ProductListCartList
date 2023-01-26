@@ -1,17 +1,12 @@
-//
-//  RootView.swift
-//  OnlineStoreTCA
-//
-//  Created by Pedro Rojas on 24/08/22.
-//
 
 import SwiftUI
 import ComposableArchitecture
 
 struct TabViewContainer: View {
     let store: Store<TabViewDomain.State, TabViewDomain.Action>
-    @State var productListStore: Store<ProductListDomain.State,ProductListDomain.Action>
     @State var profileStore: Store<ProfileDomain.State, ProfileDomain.Action>
+
+    let productListContainerView: () -> ProductsContainerView
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
@@ -21,9 +16,7 @@ struct TabViewContainer: View {
                     send: TabViewDomain.Action.tabSelected
                 )
             ) {
-                ProductListView(
-                    store: productListStore
-                )
+                productListContainerView()
                 .tabItem {
                     Image(systemName: "list.bullet")
                     Text("Products")
