@@ -44,7 +44,6 @@ class ProductListDomainTest: XCTestCase {
                 fetchProducts: {
                     products
                 },
-                sendOrder: { _ in fatalError("unimplemented") },
                 uuid: { UUID.newUUIDForTest }
             )
         )
@@ -84,7 +83,6 @@ class ProductListDomainTest: XCTestCase {
                 fetchProducts: {
                     throw error
                 },
-                sendOrder: { _ in fatalError("unimplemented") },
                 uuid: { UUID.newUUIDForTest }
             )
         )
@@ -144,7 +142,6 @@ class ProductListDomainTest: XCTestCase {
                 fetchProducts: {
                     fatalError("unimplemented")
                 },
-                sendOrder: { _ in fatalError("unimplemented") },
                 uuid: { UUID.newUUIDForTest }
             )
         )
