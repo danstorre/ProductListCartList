@@ -5,10 +5,13 @@ import ComposableArchitecture
 struct ProductsContainerView: View {
     let store: Store<ProductsContainerDomain.State,ProductsContainerDomain.Action>
     private let productListView: () -> ProductListView
+    private let cartListView: () -> IfLetStore<CartListDomain.State, CartListDomain.Action, CartListView?>
     
     init(productListView: @escaping () -> ProductListView,
+         cartListView: @escaping () -> IfLetStore<CartListDomain.State, CartListDomain.Action, CartListView?>,
          store: Store<ProductsContainerDomain.State,ProductsContainerDomain.Action>) {
         self.productListView = productListView
+        self.cartListView = cartListView
         self.store = store
     }
     
@@ -32,14 +35,7 @@ struct ProductsContainerView: View {
                         send: ProductsContainerDomain.Action.setCartView(isPresented:)
                     )
                 ) {
-                    IfLetStore(
-                        self.store.scope(
-                            state: \.cartState,
-                            action: ProductsContainerDomain.Action.cart
-                        )
-                    ) {
-                        CartListView(store: $0)
-                    }
+                    cartListView()
                 }
                 
             }

@@ -44,7 +44,18 @@ final class Root {
         ProductsContainerView(
             productListView: { [unowned self] in
                 ProductListView(store: self.productListDomainDuplicationStore)
-            }, store: productListContainerDomainStore
+            },
+            cartListView: { [unowned self] in
+                IfLetStore(
+                    self.productListContainerDomainStore.scope(
+                        state: \.cartState,
+                        action: ProductsContainerDomain.Action.cart
+                    )
+                ) {
+                    CartListView(store: $0)
+                }
+            },
+            store: productListContainerDomainStore
         )
     }
     
