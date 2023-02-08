@@ -161,7 +161,7 @@ class ProductListDomainTest: XCTestCase {
             $0.productListState[id: id1]?.addToCartState.count = 2
         }
         
-        let expectedCartState = CartListDomain.State(
+        _ = CartListDomain.State(
             cartItems: IdentifiedArrayOf(
                 uniqueElements: [
                     CartItemDomain.State(
