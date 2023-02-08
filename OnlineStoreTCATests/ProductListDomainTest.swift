@@ -39,13 +39,12 @@ class ProductListDomainTest: XCTestCase {
         
         let store = TestStore(
             initialState: ProductListDomain.State(),
-            reducer: ProductListDomain.reducer,
-            environment: ProductListDomain.Environment(
-                fetchProducts: {
-                    products
-                },
-                uuid: { UUID.newUUIDForTest }
-            )
+            reducer: ProductListDomain(uuid: { UUID.newUUIDForTest },
+                                       effectFetchProducts: EffectTask.task {
+                                           await .fetchProductsResponse(
+                                               TaskResult { products }
+                                           )
+                                       })
         )
         
         let productId1 = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
@@ -78,13 +77,12 @@ class ProductListDomainTest: XCTestCase {
         let error = APIClient.Failure()
         let store = TestStore(
             initialState: ProductListDomain.State(),
-            reducer: ProductListDomain.reducer,
-            environment: ProductListDomain.Environment(
-                fetchProducts: {
-                    throw error
-                },
-                uuid: { UUID.newUUIDForTest }
-            )
+            reducer: ProductListDomain(uuid: { UUID.newUUIDForTest },
+                                       effectFetchProducts: EffectTask.task {
+                                           await .fetchProductsResponse(
+                                               TaskResult { throw error }
+                                           )
+                                       })
         )
         
         await store.send(.fetchProducts) {
@@ -137,13 +135,12 @@ class ProductListDomainTest: XCTestCase {
             initialState: ProductListDomain.State(
                 productListState: identifiedProducts
             ),
-            reducer: ProductListDomain.reducer,
-            environment: ProductListDomain.Environment(
-                fetchProducts: {
-                    fatalError("unimplemented")
-                },
-                uuid: { UUID.newUUIDForTest }
-            )
+            reducer: ProductListDomain(uuid: { UUID.newUUIDForTest },
+                                       effectFetchProducts: EffectTask.task {
+                                           await .fetchProductsResponse(
+                                               TaskResult { fatalError("unimplemented") }
+                                           )
+                                       })
         )
         
         await store.send(

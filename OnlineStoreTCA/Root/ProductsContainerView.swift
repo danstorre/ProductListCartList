@@ -37,8 +37,8 @@ struct ProductsContainerView: View {
                 ) {
                     cartListView()
                 }
-                
             }
         }
+        .tag("anyView")
     }
 }

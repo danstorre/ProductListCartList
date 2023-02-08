@@ -37,24 +37,12 @@ struct ProductListView: View {
                     }
                 }
             }
-            .task {
+            .onAppear {
                 viewStore.send(.fetchProducts)
             }
         }
+        .tag("anyView")
+        
     }
 }
 
-struct ProductListViewDuplication_Previews: PreviewProvider {
-    static var previews: some View {
-        ProductListView(
-            store: Store(
-                initialState: ProductListDomain.State(),
-                reducer: ProductListDomain.reducer,
-                environment: ProductListDomain.Environment(
-                    fetchProducts: { Product.sample },
-                    uuid: { UUID() }
-                )
-            )
-        )
-    }
-}

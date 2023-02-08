@@ -32,5 +32,6 @@ struct TabViewContainer: View {
                 .tag(TabViewDomain.Tab.profile)
             }
         }
+        .tag("anyView")
     }
 }

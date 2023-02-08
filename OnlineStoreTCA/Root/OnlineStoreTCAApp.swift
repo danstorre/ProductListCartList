@@ -6,13 +6,25 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct OnlineStoreTCAApp: App {
-    var mainView: TabViewContainer
-    private let root = Root()
+    public var mainView: TabViewContainer
+    private var root: Root
+    
+    init(fetchProducts:  @escaping @Sendable () async throws -> [Product]) {
+        self.root = Root(fetchProducts: fetchProducts)
+        mainView = root.createMainView()
+    }
+    
+    init(effectFetchProducts: EffectTask<ProductListDomain.Action>) {
+        self.root = Root(effectFetchProducts: effectFetchProducts)
+        mainView = root.createMainView()
+    }
     
     init() {
+        self.root = Root()
         mainView = root.createMainView()
     }
     
