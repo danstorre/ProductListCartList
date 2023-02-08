@@ -4,6 +4,8 @@ import ViewInspector
 import ComposableArchitecture
 @testable import OnlineStoreTCA
 
+extension InspectableSheet: PopupPresenter { }
+
 final class ProductsListUIAcceptanceTests: XCTestCase {
 
     func test_onCartListSelection_WithNonSelectedItems_displaysEmptyCarList() {
