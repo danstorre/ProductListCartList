@@ -38,10 +38,7 @@ class CartListDomainTest: XCTestCase {
         
         let store = TestStore(
             initialState: CartListDomain.State(cartItems: cartItems),
-            reducer: CartListDomain.reducer,
-            environment: CartListDomain.Environment(
-                sendOrder: { _ in fatalError("unimplemented") }
-            )
+            reducer: CartListDomain(sendOrder: { _ in fatalError("unimplemented") })
         )
         
         await store.send(.deleteCartItem(id: cartItemId1)) {
@@ -89,10 +86,7 @@ class CartListDomainTest: XCTestCase {
         
         let store = TestStore(
             initialState: CartListDomain.State(cartItems: cartItems),
-            reducer: CartListDomain.reducer,
-            environment: CartListDomain.Environment(
-                sendOrder: { _ in fatalError("unimplemented") }
-            )
+            reducer: CartListDomain(sendOrder: { _ in fatalError("unimplemented") })
         )
         
         await store.send(.deleteCartItem(id: cartItemId1)) {
@@ -150,10 +144,7 @@ class CartListDomainTest: XCTestCase {
         
         let store = TestStore(
             initialState: CartListDomain.State(cartItems: cartItems),
-            reducer: CartListDomain.reducer,
-            environment: CartListDomain.Environment(
-                sendOrder: { _ in "Success" }
-            )
+            reducer: CartListDomain(sendOrder: { _ in "Success" })
         )
         
         await store.send(.didConfirmPurchase) {
@@ -199,10 +190,7 @@ class CartListDomainTest: XCTestCase {
         
         let store = TestStore(
             initialState: CartListDomain.State(cartItems: cartItems),
-            reducer: CartListDomain.reducer,
-            environment: CartListDomain.Environment(
-                sendOrder: { _ in throw APIClient.Failure() }
-            )
+            reducer: CartListDomain(sendOrder: { _ in throw APIClient.Failure() })
         )
         
         await store.send(.didConfirmPurchase) {
