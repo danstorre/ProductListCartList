@@ -30,20 +30,6 @@ final class Root {
     
     init() {}
     
-    init(fetchProducts: @escaping @Sendable () async throws -> [Product]) {
-        self.productListDomainDuplicationStore = Store(
-            initialState: ProductListDomain.State(),
-            reducer: ProductListDomain(uuid: { UUID() },
-                                       effectFetchProducts: EffectTask.task {
-                    await .fetchProductsResponse(
-                        TaskResult {
-                            try await fetchProducts()
-                        }
-                    )
-                })
-        )
-    }
-    
     init(effectFetchProducts: EffectTask<ProductListDomain.Action>) {
         self.productListDomainDuplicationStore = Store(
             initialState: ProductListDomain.State(),

@@ -13,11 +13,6 @@ struct OnlineStoreTCAApp: App {
     public var mainView: TabViewContainer
     private var root: Root
     
-    init(fetchProducts:  @escaping @Sendable () async throws -> [Product]) {
-        self.root = Root(fetchProducts: fetchProducts)
-        mainView = root.createMainView()
-    }
-    
     init(effectFetchProducts: EffectTask<ProductListDomain.Action>) {
         self.root = Root(effectFetchProducts: effectFetchProducts)
         mainView = root.createMainView()
