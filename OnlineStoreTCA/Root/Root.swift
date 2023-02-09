@@ -21,17 +21,28 @@ final class Root {
     
     private lazy var productListContainerDomainStore = Store(
         initialState: ProductsContainerDomain.State(),
-        reducer: ProductsContainerDomain(uuid: { UUID() })
+        reducer: ProductsContainerDomain(uuid: { UUID() }, effectFetchProducts: EffectTask.task {
+            await .fetchProductsResponse(
+                TaskResult { try await APIClient.live.fetchProducts() }
+            )
+        })
     )
     
     init() {}
     
-    init(effectFetchProducts: EffectTask<ProductListDomain.Action>) {
+    init(effectFetchProducts: EffectTask<ProductListDomain.Action>,
+         effectFetchProductsFromList: EffectTask<ProductsContainerDomain.Action>) {
         self.productListStore = Store(
             initialState: ProductListDomain.State(),
             reducer: ProductListDomain(
                 uuid: { UUID() },
                 effectFetchProducts: effectFetchProducts
+            )
+        )
+        self.productListContainerDomainStore = Store(
+            initialState: ProductsContainerDomain.State(),
+            reducer: ProductsContainerDomain(uuid: { UUID() },
+                                             effectFetchProducts: effectFetchProductsFromList
             )
         )
     }

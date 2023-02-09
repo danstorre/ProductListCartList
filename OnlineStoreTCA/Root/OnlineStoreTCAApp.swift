@@ -13,8 +13,10 @@ struct OnlineStoreTCAApp: App {
     public var mainView: TabViewContainer
     private var root: Root
     
-    init(effectFetchProducts: EffectTask<ProductListDomain.Action>) {
-        self.root = Root(effectFetchProducts: effectFetchProducts)
+    init(effectFetchProducts: EffectTask<ProductListDomain.Action>,
+         effectFetchProductsFromList: EffectTask<ProductsContainerDomain.Action>) {
+        self.root = Root(effectFetchProducts: effectFetchProducts,
+                         effectFetchProductsFromList: effectFetchProductsFromList)
         mainView = root.createMainView()
     }
     

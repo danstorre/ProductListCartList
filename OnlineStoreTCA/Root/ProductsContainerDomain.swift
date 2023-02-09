@@ -25,6 +25,8 @@ struct ProductsContainerDomain {
     }
     
     enum Action: Equatable {
+        case fetchProducts
+        case fetchProductsResponse(TaskResult<[Product]>)
         case setCartView(isPresented: Bool)
         case cart(CartListDomain.Action)
         case closeCart
@@ -37,9 +39,13 @@ struct ProductsContainerDomain {
     }
     
     let uuid: (@Sendable () -> UUID)
+    private let effectFetchProducts: EffectTask<ProductsContainerDomain.Action>
     
-    init(uuid: @escaping (@Sendable () -> UUID)) {
+    init(uuid: @escaping (@Sendable () -> UUID),
+         effectFetchProducts: EffectTask<ProductsContainerDomain.Action>
+    ) {
         self.uuid = uuid
+        self.effectFetchProducts = effectFetchProducts
     }
     
     private static func closeCart(
@@ -65,6 +71,29 @@ struct ProductsContainerDomain {
 extension ProductsContainerDomain: ReducerProtocol {
     func reduce(into state: inout State, action: Action) -> ComposableArchitecture.EffectTask<Action> {
         switch action {
+        case .fetchProducts:
+            if state.dataLoadingStatus == .success || state.dataLoadingStatus == .loading {
+                return .none
+            }
+            
+            state.dataLoadingStatus = .loading
+            return effectFetchProducts
+        case .fetchProductsResponse(.success(let products)):
+            state.dataLoadingStatus = .success
+            state.productListState = IdentifiedArrayOf(
+                uniqueElements: products.map {
+                    ProductDomain.State(
+                        id: uuid(),
+                        product: $0
+                    )
+                }
+            )
+            return .none
+        case .fetchProductsResponse(.failure(let error)):
+            state.dataLoadingStatus = .error
+            print(error)
+            print("Error getting products, try again later.")
+            return .none
         case .cart(let action):
             switch action {
             case .didPressCloseButton:

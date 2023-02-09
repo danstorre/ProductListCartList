@@ -27,8 +27,10 @@ final class ProductsListUIAcceptanceTests: XCTestCase {
     private func showLoadedCartList() async throws -> CartListView {
         // launch the screen with needed stubbed infrastructure and state given.
         let (effect, op) = createEffectFetchProducts()
+        let (effect2, op2) = createEffectFetchListProducts()
         
-        let app = OnlineStoreTCAApp(effectFetchProducts: effect)
+        let app = OnlineStoreTCAApp(effectFetchProducts: effect,
+                                    effectFetchProductsFromList: effect2)
         
         let mainView = app.mainView
         
@@ -36,6 +38,7 @@ final class ProductsListUIAcceptanceTests: XCTestCase {
         mainView.simulateAppearance()
         
         try await waitFor(operation: op)
+        try await waitFor(operation: op2)
         
         // assert one item is presented.
         XCTAssertEqual(mainView.numberOfDisplayedProducts(), 1)
@@ -62,8 +65,19 @@ final class ProductsListUIAcceptanceTests: XCTestCase {
         return (effect, op)
     }
     
-    private func waitFor(operation: @Sendable (Send<ProductListDomain.Action>) async throws -> Void) async throws {
-        try await operation(Send<ProductListDomain.Action>(send: { _ in }))
+    private func createEffectFetchListProducts() -> (effect: EffectTask<ProductsContainerDomain.Action>,
+                                                 op: @Sendable (Send<ProductsContainerDomain.Action>) async throws -> Void){
+        let op: @Sendable (Send<ProductsContainerDomain.Action>) async throws -> Void =  { send in
+            await send(.fetchProductsResponse(
+                TaskResult { [anyProduct()] }
+            ))
+        }
+        let effect = EffectTask<ProductsContainerDomain.Action>.run(operation: op)
+        return (effect, op)
+    }
+    
+    private func waitFor<T>(operation: @Sendable (Send<T>) async throws -> Void) async throws {
+        try await operation(Send<T>(send: { _ in }))
     }
     
     func showEmptyCartList() -> CartListView {
@@ -109,18 +123,25 @@ extension TabViewContainer {
     }
     
     func simulateAppearance() {
-        let productListView = try? inspect()
+        
+        let productContainerView = try? inspect()
             .find(TabViewContainer.self)
             .find(viewWithTag: "anyView")
             .tabView()
             .find(ProductsContainerView.self)
             .find(viewWithTag: "anyView")
+        
+        let productListView = try? productContainerView?
             .find(ProductListView.self)
             .find(viewWithTag: "anyView")
             .group()
         
         _ = try? productListView?.callOnAppear()
         
+        let navigationView = try? productContainerView?
+            .find(ViewType.NavigationView.self)
+        
+        _ = try? navigationView?.callOnAppear()
     }
     
     func simulateAddItemToCart() {
