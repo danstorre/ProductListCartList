@@ -47,6 +47,7 @@ struct ProductCell: View {
             }
             .padding(20)
         }
+        .tag("anyView")
     }
 }
 

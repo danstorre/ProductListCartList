@@ -28,6 +28,7 @@ struct AddToCartButton: View {
                 .buttonStyle(.plain)
             }
         }
+        .tag("anyView")
     }
 }
 

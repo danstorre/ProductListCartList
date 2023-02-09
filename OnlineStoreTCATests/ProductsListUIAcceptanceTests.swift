@@ -4,7 +4,7 @@ import ViewInspector
 import ComposableArchitecture
 @testable import OnlineStoreTCA
 
-extension InspectableSheet: PopupPresenter { }
+extension InspectableSheet: PopupPresenter {}
 
 final class ProductsListUIAcceptanceTests: XCTestCase {
 
@@ -15,27 +15,16 @@ final class ProductsListUIAcceptanceTests: XCTestCase {
     }
     
     @MainActor
-    func test_onCartListSelection_SelectedItems_displaysNonEmptyCarList() async throws {
-        // launch mainView
-        let mainView = try await showLoadedMainView()
+    func test_onCartListSelection_PreviousSelectedItems_displaysNonEmptyCarList() async throws {
+        // show cart list from mainView
+        let cartListView = try await showLoadedCartList()
         
-        // assert one item is presented.
-        XCTAssertEqual(mainView.numberOfDisplayedProducts(), 1)
-        
-        // add an item to the cart from the list.
-        mainView.simulateAddItemToCart()
-        
-        // select cart list button.
-        mainView.simulateCartListButton()
-        
-        // return the cart list view.
-        
-        // assert presented values.
+        XCTAssertEqual(cartListView.numberOfDisplayedProducts(), 1)
     }
     
     // MARK: - Helpers
     @MainActor
-    private func showLoadedMainView() async throws -> TabViewContainer {
+    private func showLoadedCartList() async throws -> CartListView {
         // launch the screen with needed stubbed infrastructure and state given.
         let (effect, op) = createEffectFetchProducts()
         
@@ -48,7 +37,18 @@ final class ProductsListUIAcceptanceTests: XCTestCase {
         
         try await waitFor(operation: op)
         
-        return mainView
+        // assert one item is presented.
+        XCTAssertEqual(mainView.numberOfDisplayedProducts(), 1)
+        
+        // add an item to the cart from the list.
+        mainView.simulateAddItemToCart()
+        
+        // select cart list button.
+        mainView.simulateCartListButton()
+        
+        let cartListView = try mainView.presentedView()
+        
+        return cartListView
     }
     
     private func createEffectFetchProducts() -> (effect: EffectTask<ProductListDomain.Action>,
@@ -124,10 +124,66 @@ extension TabViewContainer {
     }
     
     func simulateAddItemToCart() {
+        let productListView = try? inspect()
+            .find(TabViewContainer.self)
+            .find(viewWithTag: "anyView")
+            .tabView()
+            .find(ProductsContainerView.self)
+            .find(viewWithTag: "anyView")
+            .find(ProductListView.self)
+            .find(viewWithTag: "anyView")
+            .group()
         
+        let listProductItems = try? productListView?
+            .find(ViewType.List.self)
+        
+        let allItems = listProductItems?
+            .findAll(ProductCell.self)
+        
+        
+        let addItemButton = try? allItems?.first?
+            .find(viewWithTag: "anyView")
+            .find(AddToCartButton.self)
+            .find(viewWithTag: "anyView")
+            .find(ViewType.Button.self)
+        
+        try? addItemButton?.tap()
     }
     
     func simulateCartListButton() {
+        let showCartListButton = try? inspect()
+            .find(TabViewContainer.self)
+            .find(viewWithTag: "anyView")
+            .tabView()
+            .find(ProductsContainerView.self)
+            .find(viewWithTag: "anyView")
+            .find(ViewType.Button.self)
         
+        try? showCartListButton?.tap()
+    }
+    
+    func presentedView() throws -> CartListView {
+        let cartListView = try inspect()
+            .find(TabViewContainer.self)
+            .find(viewWithTag: "anyView")
+            .tabView()
+            .find(ProductsContainerView.self)
+            .find(viewWithTag: "anyView")
+            .find(ViewType.Sheet.self)
+            .find(CartListView.self)
+        
+        return try cartListView.actualView()
+    }
+}
+
+extension CartListView {
+    func numberOfDisplayedProducts() -> Int? {
+        guard let count = try? inspect()
+        .find(ViewType.List.self)
+        .count else {
+            return 0
+        }
+        
+        return count
     }
 }
