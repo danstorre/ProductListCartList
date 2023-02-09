@@ -9,7 +9,7 @@ import Foundation
 import ComposableArchitecture
 
 final class Root {
-    private lazy var productListDomainDuplicationStore = Store(
+    private lazy var productListStore = Store(
         initialState: ProductListDomain.State(),
         reducer: ProductListDomain(uuid: { UUID() },
                                    effectFetchProducts: EffectTask.task {
@@ -21,17 +21,13 @@ final class Root {
     
     private lazy var productListContainerDomainStore = Store(
         initialState: ProductsContainerDomain.State(),
-        reducer: ProductsContainerDomain.reducer,
-        environment: ProductsContainerDomain.Environment(
-            sendOrder: APIClient.live.sendOrder,
-            uuid: { UUID() }
-        )
+        reducer: ProductsContainerDomain(uuid: { UUID() })
     )
     
     init() {}
     
     init(effectFetchProducts: EffectTask<ProductListDomain.Action>) {
-        self.productListDomainDuplicationStore = Store(
+        self.productListStore = Store(
             initialState: ProductListDomain.State(),
             reducer: ProductListDomain(
                 uuid: { UUID() },
@@ -59,7 +55,7 @@ final class Root {
     public func createProductListContainerView() -> ProductsContainerView {
         ProductsContainerView(
             productListView: { [unowned self] in
-                ProductListView(store: self.productListDomainDuplicationStore)
+                ProductListView(store: self.productListStore)
             },
             cartListView: { [unowned self] in
                 IfLetStore(
