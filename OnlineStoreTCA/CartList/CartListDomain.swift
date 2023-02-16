@@ -57,7 +57,7 @@ struct CartListDomain {
     
     static func verifyPayButtonVisibility(
         state: inout State
-    ) -> Effect<Action, Never> {
+    ) -> EffectTask<Action> {
         state.isPayButtonHidden = state.totalPrice == 0.0
         return .none
     }
@@ -135,7 +135,7 @@ extension CartListDomain: ReducerProtocol {
             }
         case .deleteCartItem(let id):
             state.cartItems.remove(id: id)
-            return Effect(value: .getTotalPrice)
+            return EffectTask(value: .getTotalPrice)
         }
     }
 }
