@@ -9,16 +9,6 @@ import Foundation
 import ComposableArchitecture
 
 final class Root {
-    private lazy var productListStore = Store(
-        initialState: ProductListDomain.State(),
-        reducer: ProductListDomain(uuid: { UUID() },
-                                   effectFetchProducts: EffectTask.task {
-            await .fetchProductsResponse(
-                TaskResult { try await APIClient.live.fetchProducts() }
-            )
-        })
-    )
-    
     private lazy var productListContainerDomainStore = Store(
         initialState: ProductsContainerDomain.State(),
         reducer: ProductsContainerDomain(uuid: { UUID() }, effectFetchProducts: EffectTask.task {
@@ -30,20 +20,11 @@ final class Root {
     
     init() {}
     
-    init(effectFetchProducts: EffectTask<ProductListDomain.Action>,
-         effectFetchProductsFromList: EffectTask<ProductsContainerDomain.Action>) {
-        self.productListStore = Store(
-            initialState: ProductListDomain.State(),
-            reducer: ProductListDomain(
-                uuid: { UUID() },
-                effectFetchProducts: effectFetchProducts
-            )
-        )
+    init(effectFetchProducts: EffectTask<ProductsContainerDomain.Action>) {
         self.productListContainerDomainStore = Store(
             initialState: ProductsContainerDomain.State(),
             reducer: ProductsContainerDomain(uuid: { UUID() },
-                                             effectFetchProducts: effectFetchProductsFromList
-            )
+                                             effectFetchProducts: effectFetchProducts)
         )
     }
     
@@ -66,7 +47,11 @@ final class Root {
     public func createProductListContainerView() -> ProductsContainerView {
         ProductsContainerView(
             productListView: { [unowned self] in
-                ProductListView(store: self.productListStore)
+                ProductListView(store: self.productListContainerDomainStore.scope(
+                    state: \.productListDomainState,
+                    action: { action in
+                     return .productList(action: action)
+                    }))
             },
             cartListView: { [unowned self] in
                 IfLetStore(

@@ -26,11 +26,9 @@ final class ProductsListUIAcceptanceTests: XCTestCase {
     @MainActor
     private func showLoadedCartList() async throws -> CartListView {
         // launch the screen with needed stubbed infrastructure and state given.
-        let (effect, op) = createEffectFetchProducts()
-        let (effect2, op2) = createEffectFetchListProducts()
+        let (effect, op) = createEffectFetchListProducts()
         
-        let app = OnlineStoreTCAApp(effectFetchProducts: effect,
-                                    effectFetchProductsFromList: effect2)
+        let app = OnlineStoreTCAApp(effectFetchProducts: effect)
         
         let mainView = app.mainView
         
@@ -38,7 +36,6 @@ final class ProductsListUIAcceptanceTests: XCTestCase {
         mainView.simulateAppearance()
         
         try await waitFor(operation: op)
-        try await waitFor(operation: op2)
         
         // assert one item is presented.
         XCTAssertEqual(mainView.numberOfDisplayedProducts(), 1)
@@ -52,17 +49,6 @@ final class ProductsListUIAcceptanceTests: XCTestCase {
         let cartListView = try mainView.presentedView()
         
         return cartListView
-    }
-    
-    private func createEffectFetchProducts() -> (effect: EffectTask<ProductListDomain.Action>,
-                                                 op: @Sendable (Send<ProductListDomain.Action>) async throws -> Void){
-        let op: @Sendable (Send<ProductListDomain.Action>) async throws -> Void =  { send in
-            await send(.fetchProductsResponse(
-                TaskResult { [anyProduct()] }
-            ))
-        }
-        let effect = EffectTask<ProductListDomain.Action>.run(operation: op)
-        return (effect, op)
     }
     
     private func createEffectFetchListProducts() -> (effect: EffectTask<ProductsContainerDomain.Action>,
@@ -130,14 +116,7 @@ extension TabViewContainer {
             .tabView()
             .find(ProductsContainerView.self)
             .find(viewWithTag: "anyView")
-        
-        let productListView = try? productContainerView?
-            .find(ProductListView.self)
-            .find(viewWithTag: "anyView")
-            .group()
-        
-        _ = try? productListView?.callOnAppear()
-        
+
         let navigationView = try? productContainerView?
             .find(ViewType.NavigationView.self)
         

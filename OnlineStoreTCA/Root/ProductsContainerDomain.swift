@@ -13,7 +13,8 @@ struct ProductsContainerDomain {
         var dataLoadingStatus = DataLoadingStatus.notStarted
         var shouldOpenCart = false
         var cartState: CartListDomain.State?
-        var productListState: IdentifiedArrayOf<ProductDomain.State> = []
+        
+        var productListDomainState: ProductListDomain.State = .init()
         
         var shouldShowError: Bool {
             dataLoadingStatus == .error
@@ -31,6 +32,8 @@ struct ProductsContainerDomain {
         case cart(CartListDomain.Action)
         case closeCart
         case resetProduct(product: Product)
+        
+        case productList(action: ProductListDomain.Action)
     }
     
     struct Environment {
@@ -60,9 +63,9 @@ struct ProductsContainerDomain {
     private static func resetProductsToZero(
         state: inout State
     ) {
-        for id in state.productListState.map(\.id)
-        where state.productListState[id: id]?.count != 0  {
-            state.productListState[id: id]?.addToCartState.count = 0
+        for id in state.productListDomainState.productListState.map(\.id)
+        where state.productListDomainState.productListState[id: id]?.count != 0  {
+            state.productListDomainState.productListState[id: id]?.addToCartState.count = 0
         }
     }
 }
@@ -80,7 +83,7 @@ extension ProductsContainerDomain: ReducerProtocol {
             return effectFetchProducts
         case .fetchProductsResponse(.success(let products)):
             state.dataLoadingStatus = .success
-            state.productListState = IdentifiedArrayOf(
+            state.productListDomainState.productListState = IdentifiedArrayOf(
                 uniqueElements: products.map {
                     ProductDomain.State(
                         id: uuid(),
@@ -118,13 +121,13 @@ extension ProductsContainerDomain: ReducerProtocol {
             return ProductsContainerDomain.closeCart(state: &state)
         case .resetProduct(let product):
             
-            guard let index = state.productListState.firstIndex(
+            guard let index = state.productListDomainState.productListState.firstIndex(
                 where: { $0.product.id == product.id }
             )
             else { return .none }
-            let productStateId = state.productListState[index].id
+            let productStateId = state.productListDomainState.productListState[index].id
             
-            state.productListState[id: productStateId]?.addToCartState.count = 0
+            state.productListDomainState.productListState[id: productStateId]?.addToCartState.count = 0
             return .none
         case .setCartView(let isPresented):
             state.shouldOpenCart = isPresented
@@ -132,6 +135,7 @@ extension ProductsContainerDomain: ReducerProtocol {
             ? CartListDomain.State(
                 cartItems: IdentifiedArrayOf(
                     uniqueElements: state
+                        .productListDomainState
                         .productListState
                         .compactMap { state in
                             state.count > 0
@@ -147,6 +151,13 @@ extension ProductsContainerDomain: ReducerProtocol {
                 )
             )
             : nil
+            return .none
+        case .productList(action: let action):
+            if case .fetchProducts = action {
+                return .task {
+                    .fetchProducts
+                }
+            }
             return .none
         }
     }

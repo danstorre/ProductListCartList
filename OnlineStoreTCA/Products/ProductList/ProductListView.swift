@@ -37,9 +37,6 @@ struct ProductListView: View {
                     }
                 }
             }
-            .onAppear {
-                viewStore.send(.fetchProducts)
-            }
         }
         .tag("anyView")
         
