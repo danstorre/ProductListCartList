@@ -24,7 +24,6 @@ struct ProductListDomain {
     
     enum Action: Equatable {
         case fetchProducts
-        case fetchProductsResponse(TaskResult<[Product]>)
         case product(id: ProductDomain.State.ID, action: ProductDomain.Action)
     }
 }
