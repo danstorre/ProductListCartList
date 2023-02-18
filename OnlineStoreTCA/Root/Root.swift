@@ -36,8 +36,7 @@ final class Root {
             ),
             profileStore: Store(
                 initialState: ProfileDomain.State(),
-                reducer: ProfileDomain.reducer,
-                environment: Self.profileDependencies()
+                reducer: ProfileDomain(fetchUserProfile: APIClient.live.fetchUserProfile)
             ),
             productListContainerView: createProductListContainerView
         )
@@ -69,12 +68,6 @@ final class Root {
                 }
             },
             store: productListContainerDomainStore
-        )
-    }
-    
-    private static func profileDependencies() -> ProfileDomain.Environment {
-        ProfileDomain.Environment(
-            fetchUserProfile: APIClient.live.fetchUserProfile
         )
     }
 }
