@@ -26,7 +26,6 @@ struct ProductsContainerDomain {
     }
     
     enum Action: Equatable {
-        case fetchProducts
         case fetchProductsResponse(TaskResult<[Product]>)
         case setCartView(isPresented: Bool)
         case cart(CartListDomain.Action)
@@ -75,13 +74,6 @@ struct ProductsContainerDomain {
 extension ProductsContainerDomain: ReducerProtocol {
     func reduce(into state: inout State, action: Action) -> ComposableArchitecture.EffectTask<Action> {
         switch action {
-        case .fetchProducts:
-            if state.dataLoadingStatus == .success || state.dataLoadingStatus == .loading {
-                return .none
-            }
-            
-            state.dataLoadingStatus = .loading
-            return effectFetchProducts
         case .fetchProductsResponse(.success(let products)):
             state.dataLoadingStatus = .success
             state.productListDomainState.productListState = IdentifiedArrayOf(
