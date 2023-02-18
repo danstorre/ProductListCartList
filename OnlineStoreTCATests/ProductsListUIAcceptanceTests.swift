@@ -15,16 +15,24 @@ final class ProductsListUIAcceptanceTests: XCTestCase {
     }
     
     @MainActor
-    func test_onAddProductionUserInteraction_shouldShowCorrectCartListOnCartListScreenDisplay() async throws {
-        // show cart list from mainView
-        let cartListView = try await showLoadedCartList()
+    func test_onAddProductUserInteraction_shouldShowCorrectCartListOnCartListScreenDisplay() async throws {
+        let cartListView = try await showCartListWithProducts()
         
         XCTAssertEqual(cartListView.numberOfDisplayedProducts(), 1)
     }
     
     // MARK: - Helpers
     @MainActor
-    private func showLoadedCartList() async throws -> CartListView {
+    private func showCartListWithProducts() async throws -> CartListView {
+        let mainView = try await showMainScreenWithStubbedProducts()
+        
+        XCTAssertEqual(mainView.numberOfDisplayedProducts(), 1)
+        
+        return try simulateCartListWithProductsDisplayed(from: mainView)
+    }
+    
+    @MainActor
+    private func showMainScreenWithStubbedProducts() async throws -> TabViewContainer {
         // launch the screen with needed stubbed infrastructure and state given.
         let (effect, op) = createEffectFetchListProducts()
         
@@ -37,18 +45,17 @@ final class ProductsListUIAcceptanceTests: XCTestCase {
         
         try await waitFor(operation: op)
         
-        // assert one item is presented.
-        XCTAssertEqual(mainView.numberOfDisplayedProducts(), 1)
-        
+        return mainView
+    }
+    
+    private func simulateCartListWithProductsDisplayed(from mainView: TabViewContainer) throws  -> CartListView {
         // add an item to the cart from the list.
         mainView.simulateAddItemToCart()
         
         // select cart list button.
         mainView.simulateCartListButton()
         
-        let cartListView = try mainView.presentedView()
-        
-        return cartListView
+        return try mainView.presentedView()
     }
     
     private func createEffectFetchListProducts() -> (effect: EffectTask<ProductsContainerDomain.Action>,
