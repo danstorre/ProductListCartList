@@ -38,9 +38,6 @@ struct ProductsContainerView: View {
                     cartListView()
                 }
             }
-            .onAppear {
-                viewStore.send(.fetchProducts)
-            }
         }
         .tag("anyView")
     }
