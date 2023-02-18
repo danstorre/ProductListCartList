@@ -34,6 +34,7 @@ struct ProductsContainerDomain {
         case resetProduct(product: Product)
         
         case productList(action: ProductListDomain.Action)
+        case addProduct(action: AddToCartDomain.Action, id: UUID)
     }
     
     struct Environment {
@@ -157,6 +158,14 @@ extension ProductsContainerDomain: ReducerProtocol {
                 return .task {
                     .fetchProducts
                 }
+            }
+            return .none
+        case .addProduct(action: let action, id: let id):
+            switch action {
+            case .didTapPlusButton:
+                state.productListDomainState.productListState[id: id]?.addToCartState.count += 1
+            case .didTapMinusButton:
+                state.productListDomainState.productListState[id: id]?.addToCartState.count -= 1
             }
             return .none
         }

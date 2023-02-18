@@ -50,7 +50,13 @@ final class Root {
                 ProductListView(store: self.productListContainerDomainStore.scope(
                     state: \.productListDomainState,
                     action: { action in
-                     return .productList(action: action)
+                        if case .product(id: let id, action: let productDomainAction) = action {
+                            if case .addToCart(let addToCartAction) = productDomainAction {
+                                return .addProduct(action: addToCartAction, id: id)
+                            }
+                        }
+                        
+                        return .productList(action: action)
                     }))
             },
             cartListView: { [unowned self] in
