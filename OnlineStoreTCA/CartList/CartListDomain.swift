@@ -44,10 +44,4 @@ struct CartListDomain {
         case deleteCartItem(id: CartItemDomain.State.ID)
         case cartItem(id: CartItemDomain.State.ID, action: CartItemDomain.Action)
     }
-    
-    let sendOrder: ([CartItem]) async throws -> String
-    
-    init(sendOrder: @escaping ([CartItem]) throws -> String) {
-        self.sendOrder = sendOrder
-    }
 }
