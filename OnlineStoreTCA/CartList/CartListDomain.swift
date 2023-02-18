@@ -45,20 +45,9 @@ struct CartListDomain {
         case cartItem(id: CartItemDomain.State.ID, action: CartItemDomain.Action)
     }
     
-    struct Environment {
-        var sendOrder: ([CartItem]) async throws -> String
-    }
-    
     let sendOrder: ([CartItem]) async throws -> String
     
     init(sendOrder: @escaping ([CartItem]) throws -> String) {
         self.sendOrder = sendOrder
-    }
-    
-    static func verifyPayButtonVisibility(
-        state: inout State
-    ) -> EffectTask<Action> {
-        state.isPayButtonHidden = state.totalPrice == 0.0
-        return .none
     }
 }
