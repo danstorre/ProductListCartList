@@ -32,8 +32,7 @@ final class Root {
         TabViewContainer(
             store: Store(
                 initialState: TabViewDomain.State(),
-                reducer: TabViewDomain.reducer,
-                environment: TabViewDomain.Environment()
+                reducer: TabViewDomain()
             ),
             profileStore: Store(
                 initialState: ProfileDomain.State(),

@@ -8,7 +8,7 @@
 import Foundation
 import ComposableArchitecture
 
-struct TabViewDomain {
+struct TabViewDomain: ReducerProtocol {
     struct State: Equatable {
         var selectedTab = Tab.products
     }
@@ -22,11 +22,7 @@ struct TabViewDomain {
         case tabSelected(Tab)
     }
     
-    struct Environment {}
-    
-    static let reducer = Reducer<
-        State, Action, Environment
-    >.init { state, action, environment in
+    func reduce(into state: inout State, action: Action) -> ComposableArchitecture.EffectTask<Action> {
         switch action {
         case .tabSelected(let tab):
             state.selectedTab = tab
