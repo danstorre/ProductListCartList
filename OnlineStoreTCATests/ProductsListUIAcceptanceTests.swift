@@ -15,7 +15,7 @@ final class ProductsListUIAcceptanceTests: XCTestCase {
     }
     
     @MainActor
-    func test_onCartListSelection_PreviousSelectedItems_displaysNonEmptyCarList() async throws {
+    func test_onAddProductionUserInteraction_shouldShowCorrectCartListOnCartListScreenDisplay() async throws {
         // show cart list from mainView
         let cartListView = try await showLoadedCartList()
         
@@ -116,11 +116,13 @@ extension TabViewContainer {
             .tabView()
             .find(ProductsContainerView.self)
             .find(viewWithTag: "anyView")
-
-        let navigationView = try? productContainerView?
-            .find(ViewType.NavigationView.self)
         
-        _ = try? navigationView?.callOnAppear()
+        let productListView = try? productContainerView?
+            .find(ProductListView.self)
+            .find(viewWithTag: "anyView")
+            .group()
+        
+        _ = try? productListView?.callOnAppear()
     }
     
     func simulateAddItemToCart() {

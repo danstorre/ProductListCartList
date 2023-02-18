@@ -155,9 +155,13 @@ extension ProductsContainerDomain: ReducerProtocol {
             return .none
         case .productList(action: let action):
             if case .fetchProducts = action {
-                return .task {
-                    .fetchProducts
+                if state.dataLoadingStatus == .success || state.dataLoadingStatus == .loading {
+                    return .none
                 }
+                
+                state.dataLoadingStatus = .loading
+                
+                return effectFetchProducts
             }
             return .none
         case .addProduct(action: let action, id: let id):
