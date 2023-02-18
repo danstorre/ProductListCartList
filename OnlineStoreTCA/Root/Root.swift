@@ -73,13 +73,6 @@ final class Root {
         )
     }
     
-    private static func productListDuplicationDependencies() -> ProductListDomain.Environment {
-        ProductListDomain.Environment(
-            fetchProducts: APIClient.live.fetchProducts,
-            uuid: { UUID() }
-        )
-    }
-    
     private static func profileDependencies() -> ProfileDomain.Environment {
         ProfileDomain.Environment(
             fetchUserProfile: APIClient.live.fetchUserProfile
