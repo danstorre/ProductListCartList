@@ -17,15 +17,4 @@ struct CartItemDomain {
     enum Action: Equatable {
         case deleteCartItem(product: Product)
     }
-    
-    struct Environment {}
-    
-    static let reducer = Reducer<
-        State, Action, Environment
-    > { state, action, environment in
-        switch action {
-        case .deleteCartItem:
-            return .none
-        }
-    }
 }
