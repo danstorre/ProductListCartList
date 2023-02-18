@@ -15,14 +15,6 @@ struct ProductsContainerDomain {
         var cartState: CartListDomain.State?
         
         var productListDomainState: ProductListDomain.State = .init()
-        
-        var shouldShowError: Bool {
-            dataLoadingStatus == .error
-        }
-        
-        var isLoading: Bool {
-            dataLoadingStatus == .loading
-        }
     }
     
     enum Action: Equatable {
