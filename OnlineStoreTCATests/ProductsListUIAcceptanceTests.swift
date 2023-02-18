@@ -8,8 +8,10 @@ extension InspectableSheet: PopupPresenter {}
 
 final class ProductsListUIAcceptanceTests: XCTestCase {
 
-    func test_onCartListSelection_WithNonSelectedItems_displaysEmptyCarList() {
-        let cartList = showEmptyCartList()
+    @MainActor
+    func test_onCartListSelection_WithNonSelectedItems_displaysEmptyCarList() async throws {
+        let mainView = try await showMainScreenWithStubbedProducts()
+        let cartList = try showEmptyCartList(from: mainView)
         
         XCTAssertEqual(cartList.numberOfDisplayedItems, 0)
     }
@@ -73,13 +75,11 @@ final class ProductsListUIAcceptanceTests: XCTestCase {
         try await operation(Send<T>(send: { _ in }))
     }
     
-    func showEmptyCartList() -> CartListView {
-        CartListView(store: Store<CartListDomain.State, CartListDomain.Action>
-            .init(
-                initialState: CartListDomain.State(cartItems: []),
-                reducer: CartListDomain(sendOrder: { _ in "" })
-            )
-        )
+    func showEmptyCartList(from mainView: TabViewContainer) throws -> CartListView {
+        // select cart list button.
+        mainView.simulateCartListButton()
+        
+        return try mainView.presentedView()
     }
 }
 
