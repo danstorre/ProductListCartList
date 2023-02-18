@@ -17,19 +17,4 @@ struct AddToCartDomain {
         case didTapPlusButton
         case didTapMinusButton
     }
-    
-    struct Environment {}
-    
-    static let reducer = Reducer<
-        State, Action, Environment
-    > { state, action, environment in
-        switch action {
-        case .didTapPlusButton:
-            state.count += 1
-            return .none
-        case .didTapMinusButton:
-            state.count -= 1
-            return .none
-        }
-    }
 }

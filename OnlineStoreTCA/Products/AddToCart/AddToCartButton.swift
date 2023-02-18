@@ -31,15 +31,3 @@ struct AddToCartButton: View {
         .tag("anyView")
     }
 }
-
-struct AddToCartButton_Previews: PreviewProvider {
-    static var previews: some View {
-        AddToCartButton(
-            store: Store(
-                initialState: AddToCartDomain.State(),
-                reducer: AddToCartDomain.reducer,
-                environment: AddToCartDomain.Environment()
-            )
-        )
-    }
-}

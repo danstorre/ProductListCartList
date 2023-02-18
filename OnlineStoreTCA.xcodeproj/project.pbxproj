@@ -19,7 +19,6 @@
 		B525335128AE87C700B29A17 /* CartListDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B525335028AE87C700B29A17 /* CartListDomain.swift */; };
 		B525335328AE883B00B29A17 /* CartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B525335228AE883B00B29A17 /* CartItem.swift */; };
 		B525335528AE8C5600B29A17 /* CartListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B525335428AE8C5600B29A17 /* CartListView.swift */; };
-		B5389D1B28B9AAC6002BF611 /* AddToCartDomainTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B556E18428B919FB00CB51F4 /* AddToCartDomainTest.swift */; };
 		B556E16428B5C44000CB51F4 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B556E16328B5C44000CB51F4 /* APIClient.swift */; };
 		B556E16B28B5CEA900CB51F4 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = B556E16A28B5CEA900CB51F4 /* ComposableArchitecture */; };
 		B556E17D28B7BE1600CB51F4 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B556E17C28B7BE1600CB51F4 /* ProfileView.swift */; };
@@ -70,7 +69,6 @@
 		B556E17E28B7BE2D00CB51F4 /* ProfileDomain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDomain.swift; sourceTree = "<group>"; };
 		B556E18028B7BEC200CB51F4 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		B556E18228B84F1500CB51F4 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
-		B556E18428B919FB00CB51F4 /* AddToCartDomainTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToCartDomainTest.swift; sourceTree = "<group>"; };
 		B5A5CFB1289C257900AC3E5E /* OnlineStoreTCA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnlineStoreTCA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5A5CFB4289C257900AC3E5E /* OnlineStoreTCAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStoreTCAApp.swift; sourceTree = "<group>"; };
 		B5A5CFB8289C257B00AC3E5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -191,7 +189,6 @@
 		B5389D1328B9AAA4002BF611 /* OnlineStoreTCATests */ = {
 			isa = PBXGroup;
 			children = (
-				B556E18428B919FB00CB51F4 /* AddToCartDomainTest.swift */,
 				B51F8DF628BF2FF20047E7D9 /* CartListDomainTest.swift */,
 				FB1A684529914546005AD874 /* ProductsListUIAcceptanceTests.swift */,
 			);
@@ -366,7 +363,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5389D1B28B9AAC6002BF611 /* AddToCartDomainTest.swift in Sources */,
 				B51F8DF728BF2FF20047E7D9 /* CartListDomainTest.swift in Sources */,
 				FB1A684629914546005AD874 /* ProductsListUIAcceptanceTests.swift in Sources */,
 			);
