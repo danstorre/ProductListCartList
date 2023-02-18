@@ -22,7 +22,4 @@ struct ProductDomain {
     enum Action: Equatable {
         case addToCart(AddToCartDomain.Action)
     }
-    
-    struct Environment {}
-    
 }
