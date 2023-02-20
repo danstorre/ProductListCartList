@@ -88,27 +88,3 @@ struct CartListView: View {
         }
     }
 }
-
-struct CartView_Previews: PreviewProvider {
-    static var previews: some View {
-        CartListView(
-            store: Store(
-                initialState: CartListDomain.State(
-                    cartItems: IdentifiedArrayOf(
-                        uniqueElements: CartItem.sample
-                            .compactMap {
-                                CartItemDomain.State(
-                                    id: UUID(),
-                                    cartItem: $0
-                                )
-                            }
-                    )
-                ),
-                reducer: CartListDomain.reducer,
-                environment: CartListDomain.Environment(
-                    sendOrder: { _ in "OK" }
-                )
-            )
-        )
-    }
-}

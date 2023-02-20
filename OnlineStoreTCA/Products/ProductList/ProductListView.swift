@@ -13,77 +13,36 @@ struct ProductListView: View {
     
     var body: some View {
         WithViewStore(self.store) { viewStore in
-            NavigationView {
-                Group {
-                    if viewStore.isLoading {
-                        ProgressView()
-                            .frame(width: 100, height: 100)
-                    } else if viewStore.shouldShowError {
-                        ErrorView(
-                            message: "Oops, we couldn't fetch product list",
-                            retryAction: { viewStore.send(.fetchProducts) }
-                        )
-                        
-                    } else {
-                        List {
-                            ForEachStore(
-                                self.store.scope(
-                                    state: \.productListState,
-                                    action: ProductListDomain.Action
-                                        .product(id: action:)
-                                )
-                            ) {
-                                ProductCell(store: $0)
-                            }
-                        }
-                    }
-                }
-                .task {
-                    viewStore.send(.fetchProducts)
-                }
-                .navigationTitle("Products")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            viewStore.send(.setCartView(isPresented: true))
-                        } label: {
-                            Text("Go to Cart")
-                        }
-                    }
-                }
-                .sheet(
-                    isPresented: viewStore.binding(
-                        get: \.shouldOpenCart,
-                        send: ProductListDomain.Action.setCartView(isPresented:)
+            Group {
+                if viewStore.isLoading {
+                    ProgressView()
+                        .frame(width: 100, height: 100)
+                } else if viewStore.shouldShowError {
+                    ErrorView(
+                        message: "Oops, we couldn't fetch product list",
+                        retryAction: { viewStore.send(.fetchProducts) }
                     )
-                ) {
-                    IfLetStore(
-                        self.store.scope(
-                            state: \.cartState,
-                            action: ProductListDomain.Action.cart
-                        )
-                    ) {
-                        CartListView(store: $0)
+                    
+                } else {
+                    List {
+                        ForEachStore(
+                            self.store.scope(
+                                state: \.productListState,
+                                action: ProductListDomain.Action
+                                    .product(id: action:)
+                            )
+                        ) {
+                            ProductCell(store: $0)
+                        }
                     }
                 }
-                
+            }
+            .onAppear {
+                viewStore.send(.fetchProducts)
             }
         }
+        .tag("anyView")
+        
     }
 }
 
-struct ProductListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProductListView(
-            store: Store(
-                initialState: ProductListDomain.State(),
-                reducer: ProductListDomain.reducer,
-                environment: ProductListDomain.Environment(
-                    fetchProducts: { Product.sample },
-                    sendOrder: { _ in "OK" },
-                    uuid: { UUID() }
-                )
-            )
-        )
-    }
-}

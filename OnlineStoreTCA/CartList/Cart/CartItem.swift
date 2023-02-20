@@ -8,8 +8,15 @@
 import Foundation
 
 struct CartItem: Equatable {
+    let id: UUID
     let product: Product
     let quantity: Int
+    
+    init(id: UUID = UUID(), product: Product, quantity: Int) {
+        self.id = id
+        self.product = product
+        self.quantity = quantity
+    }
 }
 
 extension CartItem {

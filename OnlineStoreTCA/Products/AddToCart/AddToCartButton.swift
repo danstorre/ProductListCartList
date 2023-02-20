@@ -28,17 +28,6 @@ struct AddToCartButton: View {
                 .buttonStyle(.plain)
             }
         }
-    }
-}
-
-struct AddToCartButton_Previews: PreviewProvider {
-    static var previews: some View {
-        AddToCartButton(
-            store: Store(
-                initialState: AddToCartDomain.State(),
-                reducer: AddToCartDomain.reducer,
-                environment: AddToCartDomain.Environment()
-            )
-        )
+        .tag("anyView")
     }
 }
